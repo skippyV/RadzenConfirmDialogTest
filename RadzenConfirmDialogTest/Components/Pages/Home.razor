@@ -5,19 +5,28 @@
 
 <PageTitle>Radzen Dialog Test</PageTitle>
 
+@if(!string.IsNullOrEmpty(statusMessage))
+{
+    <p>Status: @statusMessage</p>
+}
+
+<RadzenDialog></RadzenDialog>
+
 <h1>Hello, world!</h1>
 
 <div class="rz-p-12 rz-text-align-center">
     <RadzenButton Text="Alert dialog" ButtonStyle="ButtonStyle.Secondary"
                   Click=@(args => DialogService.Alert("Some message!", "MyTitle", new AlertOptions() { OkButtonText = "Yes" })) />
 <p></p>
-    <RadzenButton Text="Alert dialog with MyMethod" ButtonStyle="ButtonStyle.Secondary"
-                  Click=MyMethod />
+    <RadzenButton Text="Confirm dialog" ButtonStyle="ButtonStyle.Secondary"
+                  Click=@(args => ConfirmDelete("skippy")) />
 <p></p>
     <RadzenButton Text="Alert dialog with markup" ButtonStyle="ButtonStyle.Secondary"
                   Click=@(args => DialogService.Alert(GetMessage(), "MyTitle", new AlertOptions() { OkButtonText = "Yes" })) />
 </div>
 @code {
+    string statusMessage = "";
+
     RenderFragment GetMessage()
     {
         return __builder =>
@@ -31,5 +40,24 @@
     private void MyMethod()
     {
         var res = DialogService.Alert("Some message!", "MyTitle", new AlertOptions() { OkButtonText = "Yes" });
+    }
+
+    // https://stackoverflow.com/questions/67998617/blazor-radzen-grid-using-radzen-dialog-yes-no
+    // https://blazor.radzen.com/dialog#confirm-dialog
+    // Source - https://stackoverflow.com/a/71313468
+    // Posted by Adam
+    // Retrieved 2026-02-17, License - CC BY-SA 4.0
+    public async Task ConfirmDelete(string id)
+    {
+        var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Dialog Title", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            statusMessage = "ConfirmDelete returned TRUE";
+        }
+        else
+        {
+            statusMessage = "ConfirmDelete returned FALSE";
+        }
+       // StateHasChanged();
     }
 }

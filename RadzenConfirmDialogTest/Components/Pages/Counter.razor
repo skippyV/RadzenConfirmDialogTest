@@ -1,13 +1,23 @@
 ﻿@page "/counter"
 @rendermode InteractiveServer
+@inject DialogService DialogService
 
 <PageTitle>Counter</PageTitle>
-
+<RadzenDialog></RadzenDialog>
 <h1>Counter</h1>
 
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<p></p>
+
+<div class="rz-p-12 rz-text-align-center">
+
+    <RadzenButton Text="Alert dialog" ButtonStyle="ButtonStyle.Secondary"
+                  Click=@(args => DialogService.Alert("Some message!", "MyTitle", new AlertOptions() { OkButtonText = "Yes" })) />
+
+</div>
 
 @code {
     private int currentCount = 0;

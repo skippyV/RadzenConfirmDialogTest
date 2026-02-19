@@ -24,3 +24,17 @@ But the issue is that no Dialog ever appears. The Radzen buttons are all there b
 And I also added this to top of Home page. 
    @rendermode InteractiveServer
    
+The problem was pointed out that I needed to include the 
+   <RadzenDialog></RadzenDialog>
+int the markup portion of Home.razor
+
+  OR 
+  
+put this in MainLayout.razor
+<RadzenComponents @rendermode="InteractiveServer" />
+
+But why does the second approach also work? When I am not declaring 
+the <RadzenDialog> component anywhere? These answers lie in the sources
+of Radzen and in the guidance provided by the Radzen contributors:
+
+https://forum.radzen.com/t/cannot-get-the-dialog-to-appear-using-dialogservice/21382/4
